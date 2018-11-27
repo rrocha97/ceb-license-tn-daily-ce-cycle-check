@@ -1,0 +1,36 @@
+{
+  "name": "ceb-license-add-new-cycle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest --watchAll",
+    "coverage": "jest --env=jsdom --coverage",
+    "knex": "node node_modules/knex/bin/cli.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^6.1.0",
+    "joi": "^14.0.4",
+    "knex": "^0.14.6",
+    "moment": "^2.22.2",
+    "ora": "^3.0.0",
+    "oracledb": "github:oracle/node-oracledb#v2.0.15"
+  },
+  "devDependencies": {
+    "chai": "4.1.2",
+    "jest": "22.4.2",
+    "lab": "15.4.0",
+    "sinon": "4.4.6"
+  },
+  "jest": {
+    "verbose": true,
+    "testURL": "http://localhost/",
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "<rootDir>/(lib|build|docs|node_modules)/"
+    ]
+  }
+}
