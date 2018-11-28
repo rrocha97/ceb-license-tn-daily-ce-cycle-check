@@ -1,4 +1,4 @@
-const { oracleDB } = require('./helpers/dbHelper');
+const { oracleDB, elasticSearch } = require('./helpers/dbHelper');
 const { createNewCeCycle, carryOVerExemptions } = oracleDB.repositories;
 const moment = require('moment');
 
@@ -41,16 +41,27 @@ const app = async () => {
 
     let boardsFrequecy = await createNewCeCycle.searchBoards();
     for (const board of boardsFrequecy) {
-      let licenses = await createNewCeCycle.searchLicenseExpToday(board.CD_BOARD);
+      let licenses = await elasticSearch.searchLicensesGroupedByBoard(board.CD_BOARD)
 
-      for (const license of licenses) {
-        newCycle = await appModule.calculateNewCycle(license.DT_RENEWAL_END,license.CD_EVAL_CE_EXP_DATE);
-        license.DT_RENEWAL_START = newCycle.renewalStart;
-        license.DT_RENEWAL_END = newCycle.renewalEnd;
-        await appModule.createLicensePeriod(license)
-        await appModule.carryOVerExemption(license)
-        await createNewCeCycle.scheduleEvents(license);
-      }
+    for (const license of licenses) {
+      
+      //await createNewCeCycle.createNewCeCycleFromPrior(license._source.currentPeriod.id);
+    }
+   console.log(licenses);
+      console.log(licenses.length);
+
+
+
+      
+
+      // for (const license of licenses) {
+      //   newCycle = await appModule.calculateNewCycle(license.DT_RENEWAL_END,license.CD_EVAL_CE_EXP_DATE);
+      //   license.DT_RENEWAL_START = newCycle.renewalStart;
+      //   license.DT_RENEWAL_END = newCycle.renewalEnd;
+      //   await appModule.createLicensePeriod(license)
+      //   await appModule.carryOVerExemption(license)
+      //   await createNewCeCycle.scheduleEvents(license);
+      // }
     }
 
     const datefin = new Date();

@@ -1,6 +1,6 @@
 require('dotenv').config();
 const {
-  RENEWABLE_STATUS
+  RENEWABLE_STATUS_ORACLE
 } = process.env;
 const moment = require('moment');
 const createNewCeCycle = {
@@ -21,6 +21,22 @@ const createNewCeCycle = {
     }
   },
 
+  createNewCeCycleFromPrior: async idLicensePeriod => {
+    try {
+      const results = await createNewCeCycle.knex
+        .raw(` 
+            begin
+            Pkg_tn_daily_ce_cycle_check.create_new_ce_cycle_from_prior(pid_license_period_current => ${idLicensePeriod});
+           commit; 
+          end;
+            `);
+      return results;
+    } catch (error) {
+      console.error(error.message);
+    }
+  },
+
+
   searchLicenseExpToday: async (cdBoard) => {
     try {
       const results = await createNewCeCycle.knex
@@ -33,7 +49,7 @@ const createNewCeCycle = {
         on p.id_profession = l.id_profession
       where  dt_renewal_end= TO_DATE('${moment().format('MM/DD/YYYY')}', 'MM/DD/YYYY')
           and CD_BOARD = '${cdBoard}'
-          and upper(CD_PRAES_LICENSE_STATUS) in ${RENEWABLE_STATUS}`);
+          and upper(CD_PRAES_LICENSE_STATUS) in ${RENEWABLE_STATUS_ORACLE}`);
         
 
       return results;
@@ -82,6 +98,7 @@ const createNewCeCycle = {
       console.error(error.message);
     }
   },
+
   getCdScenariolp: async (idLicensePeriod) => {
     try {
       return await createNewCeCycle.knex.raw(`select pkg_scenario_api.cd_scenario(pid_license_period => ${idLicensePeriod} ) type from dual  `);
