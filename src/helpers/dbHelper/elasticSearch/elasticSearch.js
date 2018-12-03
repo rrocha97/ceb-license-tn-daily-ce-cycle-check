@@ -16,7 +16,7 @@ const elasticsearch = require("elasticsearch");
 const elasticSearchClient = new elasticsearch.Client(elasticSearchCredentials);
 
 const searchLicenses = async filters =>
-    await elasticSearchClient.search({
+    await elasticSearchModule.elasticSearchClient.search({
         index: '47',
         body: {
             query: {
@@ -42,27 +42,22 @@ const searchLicenses = async filters =>
                 }
             }
         }
-   
-        });
-    
-    
+
+    });
 
 const searchLicensesGroupedByBoard = async boardId => {
-    
-    const filters = { ids: [], boardId };
-    const esQueries = await elasticSearchModule.searchLicenses(filters); 
-    
-    if (esQueries.length === 0) {
+
+    const esQueries = await elasticSearchModule.searchLicenses(boardId);
+    if (esQueries.hits.total == 0 || !esQueries) {
         return;
     }
-
-    return  esQueries.hits.hits;
+    return esQueries.hits.hits;
 }
-
 
 const elasticSearchModule = {
     searchLicensesGroupedByBoard,
-    searchLicenses
+    searchLicenses,
+    elasticSearchClient
 }
 
 

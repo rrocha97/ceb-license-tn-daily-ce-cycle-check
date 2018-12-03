@@ -1,29 +1,15 @@
 'use strict';
 require('dotenv').config();
-const { dbHelper } = require('./helpers');
-const { oracleDB: oDBConnection} = dbHelper;
+const schedule = require('node-schedule');
+const  worker  = require('./worker');
 
-const { app } = require('./app');
-
-const process = async () => {
-  try {
-
-   await modelModule.app();
-    console.log("Release Done");
-  } catch (e) {
-    console.error(e.message);
-   
-  } finally {
-    if(oDBConnection) oDBConnection.destroy();
-  }
+const start = async () => {
+    // schedule.scheduleJob(process.env.SCHEDULE_TIME, worker.run);
+    worker.run()
 };
 
-
-
-
-const modelModule = {
-  app,
-  process,
+const indexModule = {
+  start
 }
-modelModule.process();
-module.exports = modelModule;
+indexModule.start();
+module.exports = indexModule;
