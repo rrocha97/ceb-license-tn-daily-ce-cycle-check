@@ -189,9 +189,19 @@ describe('testing worker/app', () => {
             assert.equal(createNewCeCycleFromPriorStub.calledOnce, true);
         });
         it('if occurs some error should be call console.error', async () => {
-            searchBoardstub.returns(null);
+            searchBoardstub.returns({ds:'sa'});
             await appModule.app();
             assert.equal(errorStub.calledOnce, true);
+        });
+        it('if searchBoardstub not foun board should be null', async () => {
+            searchBoardstub.returns();
+            restult = await appModule.app();
+            assert.equal(restult, null);
+        });
+        it('if searchLicensesGroupedByBoard not foun board should be null', async () => {
+            searchLicensesGroupedByBoardStub.returns();
+            restult = await appModule.app();
+            assert.equal(restult, null);
         });
     });
     describe('When validateRunReport is called', () => {

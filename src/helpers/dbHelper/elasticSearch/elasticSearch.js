@@ -14,6 +14,7 @@ if (ELASTICSEARCH_USER && ELASTICSEARCH_PASSWORD) {
 }
 const elasticsearch = require("elasticsearch");
 const elasticSearchClient = new elasticsearch.Client(elasticSearchCredentials);
+const moment = require('moment');
 
 const searchLicenses = async filters =>
     await elasticSearchModule.elasticSearchClient.search({
@@ -24,7 +25,7 @@ const searchLicenses = async filters =>
                     must: [
                         {
                             match: {
-                                "currentPeriod.renewalEndDate": "12/31/2018"
+                                "currentPeriod.renewalEndDate": moment().format('MM/DD/YYYY')
                             }
                         },
 
@@ -32,7 +33,7 @@ const searchLicenses = async filters =>
                             constant_score: {
                                 filter: {
                                     terms: {
-                                        "currentPeriod.licenseStatus": ['ACTIVE']
+                                        "currentPeriod.licenseStatus": RENEWABLE_STATUS_ELASTIC
                                     }
                                 }
                             }

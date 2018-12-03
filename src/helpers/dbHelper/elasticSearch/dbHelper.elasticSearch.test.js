@@ -177,7 +177,7 @@ describe('repositories.elasticSearch', () => {
             assert.equal(searchLicenseStub.calledOnce, true);
         });
         it('if not found licnese should return null', async () => {
-            searchLicenseStub.returns({})
+            searchLicenseStub.returns({hits:{total:0}})
             let result = await elasticSearchModule.searchLicensesGroupedByBoard('47');
 
             assert.equal(result, null);
