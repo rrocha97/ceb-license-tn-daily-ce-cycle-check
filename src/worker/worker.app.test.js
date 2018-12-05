@@ -193,12 +193,12 @@ describe('testing worker/app', () => {
             await appModule.app();
             assert.equal(errorStub.calledOnce, true);
         });
-        it('if searchBoardstub not foun board should be null', async () => {
+        it('if searchBoardstub not found board should be null', async () => {
             searchBoardstub.returns();
             restult = await appModule.app();
             assert.equal(restult, null);
         });
-        it('if searchLicensesGroupedByBoard not foun board should be null', async () => {
+        it('if searchLicensesGroupedByBoard not found board should be null', async () => {
             searchLicensesGroupedByBoardStub.returns();
             restult = await appModule.app();
             assert.equal(restult, null);

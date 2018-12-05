@@ -158,7 +158,6 @@ let resultLicense =
     }
 }
 
-
 describe('repositories.elasticSearch', () => {
 
     describe('When searchLicensesGroupedByBoard is called ', () => {
@@ -193,7 +192,11 @@ describe('repositories.elasticSearch', () => {
         });
 
         it('Should call search functions', async () => {
-            await elasticSearchModule.searchLicenses('47');
+            let filters = {
+                limit: 9,
+                scroll: '30s'
+              };
+            await elasticSearchModule.searchLicenses('47',filters);
             assert.equal(elasticSearchStub.calledOnce, true);
 
         });

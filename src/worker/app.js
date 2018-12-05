@@ -51,18 +51,16 @@ const app = async () => {
     try {
         const dateini = new Date();
         let boardsFrequecy = await createNewCeCycle.searchBoards();
-        console.log(boardsFrequecy);
         if (!boardsFrequecy) return;
         for (const board of boardsFrequecy) {
-            if (!await appModule.validateRunReport(board.frecuency)) return;
+            if (!await appModule.validateRunReport(board.frecuency)) continue;
             let licenses = await elasticSearch.searchLicensesGroupedByBoard(board.ID_BOARD)
-            console.log(licenses.length);
-            if (!licenses) return;
+            if (!licenses) continue;
+            console.log(licenses.length)
             for (const license of licenses) {
-                await createNewCeCycle.createNewCeCycleFromPrior(license._source.currentPeriod.id);
+              await createNewCeCycle.createNewCeCycleFromPrior(license._source.currentPeriod.id);
             }
         } 
-        
         const datefin = new Date();
         console.log((datefin - dateini) / 1000);
         return;

@@ -29,7 +29,7 @@ const {
             begin
             Pkg_Bg_Upgrade_License_TN.create_new_ce_cycle_from_prior(pid_license_period_current => '${idLicensePeriod}',
                                                                     pid_userloged => '${USER_LOGING}',
-                                                                    pcd_came_from => ${CAME_FROM});
+                                                                    pcd_came_from => '${CAME_FROM}');
            commit; 
           end;
             `);
