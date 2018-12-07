@@ -1,7 +1,7 @@
 const sinon = require('sinon');
 const appModule = require("./app");
 const { assert } = require('chai');
-const { oracleDB, elasticSearch } = require('../helpers/dbHelper');
+const { oracleDB, elasticSearch } = require('../../helpers/dbHelper');
 const { createNewCeCycle } = oracleDB.repositories;
 const moment = require('moment');
 

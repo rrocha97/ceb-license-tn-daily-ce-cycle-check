@@ -1,9 +1,8 @@
-const { oracleDB, elasticSearch } = require('../helpers/dbHelper');
+const { oracleDB, elasticSearch } = require('../../helpers/dbHelper');
 const { createNewCeCycle } = oracleDB.repositories;
 const moment = require('moment');
 
 const validateRunReport = (frecuency) => {
-
     try {
         let run_report = false;
         switch (frecuency) {
@@ -52,17 +51,20 @@ const app = async () => {
         const dateini = new Date();
         let boardsFrequecy = await createNewCeCycle.searchBoards();
         if (!boardsFrequecy) return;
+        
         for (const board of boardsFrequecy) {
             if (!await appModule.validateRunReport(board.frecuency)) continue;
+            
             let licenses = await elasticSearch.searchLicensesGroupedByBoard(board.ID_BOARD)
             if (!licenses) continue;
-            console.log(licenses.length)
+            console.info('licenses processed', licenses.length)
+
             for (const license of licenses) {
-              await createNewCeCycle.createNewCeCycleFromPrior(license._source.currentPeriod.id);
+                await createNewCeCycle.createNewCeCycleFromPrior(license._source.currentPeriod.id);
             }
-        } 
+        }
         const datefin = new Date();
-        console.log((datefin - dateini) / 1000);
+        console.info((datefin - dateini) / 1000);
         return;
     } catch (error) {
         console.error(error.message);

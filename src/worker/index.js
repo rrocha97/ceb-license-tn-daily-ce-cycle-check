@@ -1,11 +1,8 @@
 'use strict';
 require('dotenv').config();
 const  {app}  = require('./app');
-const { dbHelper } = require('../helpers');
-const { oracleDB: oDBConnection} = dbHelper;
 
 const run = async () => {
-  
   try {
     await modelModule.app();
     console.info("Release Done");  
