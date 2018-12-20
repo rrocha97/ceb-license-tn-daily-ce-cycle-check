@@ -6,3 +6,4 @@ repositories.initialize(knex);
 knex.repositories = repositories;
 console.info('conecting',config)
 module.exports = knex;
+ 
