@@ -4,6 +4,6 @@ const repositories = require('./repositories');
 
 repositories.initialize(knex);
 knex.repositories = repositories;
-console.info('conecting',config)
+console.info('conecting...')
 module.exports = knex;
  
