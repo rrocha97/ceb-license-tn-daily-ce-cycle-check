@@ -31,7 +31,7 @@ const searchLicenses = async (idBoard, filters) =>
                     must: [
                         {
                             match: {
-                                "currentPeriod.renewalEndDate": moment().format('MM/DD/YYYY')
+                                "currentPeriod.renewalEndDate": '12/31/2018'
                             }
                         },
 
