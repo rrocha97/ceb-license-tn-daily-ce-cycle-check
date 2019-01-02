@@ -58,9 +58,13 @@ const app = async () => {
             let licenses = await elasticSearch.searchLicensesGroupedByBoard(board.ID_BOARD)
             if (!licenses) continue;
             console.info('licenses processed', licenses.length)
-
+            let count = 0
             for (const license of licenses) {
+                if ((count % 100)== 0) {
+                    console.log(`processing..${count} of ${licenses.length}`);
+                }
                 await createNewCeCycle.createNewCeCycleFromPrior(license._source.currentPeriod.id);
+                count++
             }
         }
         const datefin = new Date();
