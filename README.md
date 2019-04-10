@@ -1,1 +1,1 @@
-# ceb-licensee-tn-daily-ce-cycle-check
+# ceb-license-tn-daily-ce-cycle-check
